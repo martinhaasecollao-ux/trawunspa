@@ -1,12 +1,12 @@
 /* Caché ligera: sirve cuando abrís la app desde https o localhost (no desde file://). */
-const CACHE = "trabajun-v1";
+const CACHE = "trawunspa-v1";
 const ASSETS = [
-  "./index.html",
-  "./css/styles.css",
-  "./js/data.js",
-  "./js/app.js",
-  "./icon.svg",
-  "./manifest.json",
+  "/index.html",
+  "/css/styles.css",
+  "/js/data.js",
+  "/js/app.js",
+  "/icon.svg",
+  "/manifest.json",
 ];
 
 self.addEventListener("install", (event) => {

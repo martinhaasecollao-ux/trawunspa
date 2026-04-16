@@ -1,16 +1,17 @@
 {
-  "name": "TrabajUN — Técnicos y oficios",
-  "short_name": "TrabajUN",
-  "description": "Conecta clientes con técnicos. Celular y web.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "name": "Trawun SPA — Técnicos y oficios",
+  "short_name": "Trawun SPA",
+  "description": "Conecta clientes con técnicos. Celular y web. trawunspa.cl",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#0f1419",
   "theme_color": "#22c55e",
   "icons": [
     {
-      "src": "icon.svg",
+      "src": "/icon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
