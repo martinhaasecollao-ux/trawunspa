@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es-419">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5"
+    />
+    <meta name="theme-color" content="#0f1419" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Conecta clientes con técnicos: jardinería, plomería y más. Misma app en celular y en el navegador."
+    />
+    <title>TrabajUN — Servicios y técnicos cerca tuyo</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="icon.svg" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="#" class="logo" data-nav="inicio">Trabaj<span>UN</span></a>
+      <nav class="nav-links">
+        <a href="#" data-nav="solicitud">Soy cliente</a>
+        <a href="#" data-nav="tecnico">Soy técnico</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="page-inicio" class="page active">
+        <h1>Encuentra técnico o trabajo, como un taxi… pero para oficios</h1>
+        <p class="subtitle">
+          Si necesitas un jardinero (u otro oficio), publica frecuencia y cuánto pagas. Si ofreces
+          el servicio, regístrate y apareces cuando un cliente pague lo que pides o más. Funciona en
+          <strong>celular</strong> y en <strong>página web</strong>; en el teléfono podés agregarla a la pantalla de inicio.
+        </p>
+        <div class="hero-cards">
+          <div class="card">
+            <h2>Soy cliente</h2>
+            <p>Busco jardinero, plomero, etc. Indico si es 1 vez por semana, 2… y veo precio mínimo y promedio sugerido.</p>
+            <button type="button" class="btn btn-primary btn-block" data-nav="solicitud">
+              Nueva solicitud
+            </button>
+          </div>
+          <div class="card">
+            <h2>Soy técnico</h2>
+            <p>Me inscribo con mi oficio y el precio por visita. Los clientes me encuentran si su oferta cubre mi tarifa.</p>
+            <button type="button" class="btn btn-secondary btn-block" data-nav="tecnico">
+              Registrarme
+            </button>
+          </div>
+        </div>
+        <p class="subtitle" style="margin-top: 2rem; font-size: 0.9rem">
+          Demo local: los datos se guardan en tu navegador (
+          <code style="color: #8b9cb0">localStorage</code>). Para una app real haría falta cuenta,
+          mapa, pagos y chat.
+        </p>
+        <button type="button" class="btn btn-secondary" id="btn-demo-data">
+          Cargar técnicos de ejemplo (jardinería)
+        </button>
+      </section>
+
+      <section id="page-solicitud" class="page">
+        <h1>Nueva solicitud</h1>
+        <p class="subtitle">Elige oficio y frecuencia. Puedes pagar más que el promedio si quieres.</p>
+
+        <form id="form-solicitud">
+          <div class="form-group">
+            <label for="sol-categoria">¿Qué necesitas?</label>
+            <select id="sol-categoria" name="categoria" required></select>
+          </div>
+          <div class="form-group">
+            <label for="sol-frecuencia">¿Con qué frecuencia?</label>
+            <select id="sol-frecuencia" name="frecuencia" required></select>
+          </div>
+
+          <div class="price-box">
+            <h3>Referencia de mercado (ejemplo)</h3>
+            <div class="price-row">
+              <span class="label">Mínimo sugerido</span>
+              <span class="value" id="hint-min">—</span>
+            </div>
+            <div class="price-row highlight">
+              <span class="label">Promedio</span>
+              <span class="value" id="hint-avg">—</span>
+            </div>
+            <small style="display: block; margin-top: 0.75rem; color: #8b9cb0">
+              Puedes ofrecer más que el promedio para atraer técnicos más rápido.
+            </small>
+          </div>
+
+          <div class="form-group">
+            <label for="sol-oferta">Ofrezco pagar (por visita o por sesión acordada)</label>
+            <input type="number" id="sol-oferta" name="oferta" min="0" step="1000" required />
+            <small>No menos que el mínimo sugerido. Moneda: CLP (ejemplo).</small>
+          </div>
+          <div class="form-group">
+            <label for="sol-zona">Zona o comuna (opcional)</label>
+            <input type="text" id="sol-zona" name="zona" placeholder="Ej: La Florida" />
+          </div>
+          <div class="form-group">
+            <label for="sol-detalles">Detalles (opcional)</label>
+            <textarea id="sol-detalles" name="detalles" placeholder="Tamaño del jardín, materiales, horario…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Buscar técnicos compatibles</button>
+        </form>
+        <p style="margin-top: 1rem">
+          <a href="#" data-nav="inicio">← Volver al inicio</a>
+        </p>
+      </section>
+
+      <section id="page-matches" class="page">
+        <h1>Técnicos que calzan con tu oferta</h1>
+        <p class="subtitle">Mostramos quienes tienen el mismo oficio y piden a lo más lo que tú ofreces.</p>
+        <div id="lista-matches"></div>
+        <div class="toolbar">
+          <button type="button" class="btn btn-secondary" data-nav="solicitud">Nueva solicitud</button>
+          <button type="button" class="btn btn-secondary" data-nav="inicio">Inicio</button>
+        </div>
+      </section>
+
+      <section id="page-tecnico" class="page">
+        <h1>Registro técnico</h1>
+        <p class="subtitle">Tu precio por visita (o sesión). El cliente te verá si su oferta es igual o mayor.</p>
+
+        <form id="form-tecnico">
+          <div class="form-group">
+            <label for="tec-nombre">Nombre o nombre del negocio</label>
+            <input type="text" id="tec-nombre" name="nombre" required />
+          </div>
+          <div class="form-group">
+            <label for="tec-categoria-main">Oficio principal</label>
+            <select id="tec-categoria-main" name="categoria" required></select>
+          </div>
+          <div class="form-group">
+            <label for="tec-categorias-extra">Más oficios (opcional)</label>
+            <input
+              type="text"
+              id="tec-categorias-extra"
+              name="extras"
+              placeholder="IDs separados por coma: plomero, limpieza"
+            />
+            <small>IDs permitidos: jardinero, plomero, electricista, limpieza, pintor, carpintero, otro</small>
+          </div>
+          <div class="form-group">
+            <label for="tec-precio">Precio por visita / sesión (CLP)</label>
+            <input type="number" id="tec-precio" name="precio" min="1" step="1000" required />
+          </div>
+          <div class="form-group">
+            <label for="tec-zona">Zona donde trabajas (opcional)</label>
+            <input type="text" id="tec-zona" name="zona" placeholder="Ej: Santiago centro" />
+          </div>
+          <div class="form-group">
+            <label for="tec-nota">Nota corta (opcional)</label>
+            <textarea id="tec-nota" name="nota" placeholder="Experiencia, herramientas…"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Guardar perfil</button>
+        </form>
+
+        <h2 style="margin-top: 2.5rem; font-size: 1.2rem">Solicitudes abiertas</h2>
+        <p class="subtitle" style="margin-bottom: 1rem">Vista tipo “pedidos disponibles” para tu oficio.</p>
+        <div class="form-group">
+          <label for="tec-filtro-cat">Filtrar por categoría</label>
+          <select id="tec-filtro-cat"></select>
+        </div>
+        <div id="lista-solicitudes-abiertas"></div>
+
+        <p style="margin-top: 1.5rem">
+          <a href="#" data-nav="inicio">← Volver al inicio</a>
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      TrabajUN · celular y escritorio · precios ejemplo CLP · con HTTPS podés “instalar” la app desde el
+      navegador
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
